@@ -6,4 +6,8 @@ export class ProductsService {
   public getAll(): Product[] {
     return db.products;
   }
+
+  public getById(id: string): Product | null {
+    return db.products.find((el) => el.id === id);
+  }
 }
