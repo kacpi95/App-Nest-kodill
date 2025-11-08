@@ -1,6 +1,14 @@
 import { Product } from 'src/db';
 import { ProductsService } from './products.service';
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ParseUUIDPipe } from '@nestjs/common';
 
 @Controller('products')
@@ -29,5 +37,9 @@ export class ProductsController {
   @Post('/')
   create(@Body() productData: Omit<Product, 'id'>) {
     return this.productsService.create(productData);
+  }
+  @Patch('/:id')
+  edit(@Param('id') id: string, @Body() productData: Omit<Product, 'id'>) {
+    return this.productsService.edit(id, productData);
   }
 }

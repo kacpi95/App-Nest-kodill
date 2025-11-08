@@ -23,4 +23,11 @@ export class ProductsService {
     db.products.push(newProduct);
     return newProduct;
   }
+  public edit(id: string, productData: Omit<Product, 'id'>): void {
+    db.products.forEach((el) => {
+      if (el.id === id) {
+        Object.assign(el, productData);
+      }
+    });
+  }
 }
