@@ -10,4 +10,10 @@ export class ProductsService {
   public getById(id: string): Product | null {
     return db.products.find((el) => el.id === id);
   }
+
+  public delete(id: string): Product[] {
+    const updateArray = db.products.filter((el) => el.id !== id);
+    db.products = updateArray;
+    return updateArray;
+  }
 }
