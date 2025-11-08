@@ -10,6 +10,9 @@ import { tap } from 'rxjs/operators';
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    const dataOne = context.getArgs()[0].url;
+    const dataTwo = context.getArgs()[0].method;
+    console.log(`${dataTwo} ${dataOne}`);
     console.log('***');
     console.log(`Start request in ${context.getClass().name}`);
 
