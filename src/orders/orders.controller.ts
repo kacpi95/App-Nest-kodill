@@ -1,12 +1,15 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
   NotFoundException,
   Param,
   ParseUUIDPipe,
+  Post,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
+import { CreateOrderDTO } from 'src/products/dtos/create-orders.dtos';
 
 @Controller('orders')
 export class OrdersController {
@@ -36,5 +39,9 @@ export class OrdersController {
     this.ordersService.deleteById(id);
 
     return { success: true };
+  }
+  @Post('/')
+  create(@Body() orderData: CreateOrderDTO) {
+    return this.ordersService.create(orderData);
   }
 }
