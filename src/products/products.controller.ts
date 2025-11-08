@@ -1,5 +1,6 @@
+import { Product } from 'src/db';
 import { ProductsService } from './products.service';
-import { Controller, Delete, Get, Param } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 
 @Controller('products')
 export class ProductsController {
@@ -22,5 +23,10 @@ export class ProductsController {
   @Delete('/:id')
   delete(@Param('id') id: string) {
     return this.productsService.delete(id);
+  }
+
+  @Post('/')
+  create(@Body() productData: Omit<Product, 'id'>) {
+    return this.productsService.create(productData);
   }
 }
