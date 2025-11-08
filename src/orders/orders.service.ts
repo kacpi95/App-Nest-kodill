@@ -21,4 +21,11 @@ export class OrdersService {
     db.orders.push(newOrder);
     return newOrder;
   }
+  public edit(id: string, orderData: Omit<Order, 'id'>): void {
+    db.orders.forEach((el) => {
+      if (el.id === id) {
+        Object.assign(el, orderData);
+      }
+    });
+  }
 }
