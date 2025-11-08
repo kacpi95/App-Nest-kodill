@@ -1,15 +1,17 @@
-import { Product } from 'src/db';
 import { ProductsService } from './products.service';
 import {
   Body,
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
 } from '@nestjs/common';
 import { ParseUUIDPipe } from '@nestjs/common';
+import { CreateProductDTO } from './dtos/create-product.dto';
+import { UpdateProductDTO } from './dtos/update-product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -35,11 +37,18 @@ export class ProductsController {
   }
 
   @Post('/')
-  create(@Body() productData: Omit<Product, 'id'>) {
+  create(@Body() productData: CreateProductDTO) {
     return this.productsService.create(productData);
   }
   @Patch('/:id')
-  edit(@Param('id') id: string, @Body() productData: Omit<Product, 'id'>) {
-    return this.productsService.edit(id, productData);
+  edit(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() productData: UpdateProductDTO,
+  ) {
+    if (!this.productsService.getById(id))
+      throw new NotFoundException('Product not found');
+
+    this.productsService.edit(id, productData);
+    return { success: true };
   }
 }
