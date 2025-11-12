@@ -1,11 +1,14 @@
 import { db, Order } from './../db';
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
+import { PrismaService } from 'src/services/prisma.service';
 
 @Injectable()
 export class OrdersService {
-  public getAll(): Order[] {
-    return db.orders;
+  constructor(private prismaService: PrismaService) {}
+
+  public getAll(): Promise<Order[]> {
+    return this.prismaService.order.findMany();
   }
 
   public getById(id: string): Order | null {
