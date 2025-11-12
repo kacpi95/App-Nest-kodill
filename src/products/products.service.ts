@@ -7,8 +7,8 @@ import { Product } from '@prisma/client';
 export class ProductsService {
   constructor(private prismaService: PrismaService) {}
 
-  public getAll(): Product[] {
-    return db.products;
+  public getAll(): Promise<Product[]> {
+    return this.prismaService.product.findMany();
   }
 
   public getById(id: string): Product | null {
