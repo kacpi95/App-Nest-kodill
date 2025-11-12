@@ -16,10 +16,10 @@ export class OrdersService {
       where: { id },
     });
   }
-  public delete(id: string): Order[] {
-    const updateArray = db.orders.filter((el) => el.id === id);
-    db.orders = updateArray;
-    return updateArray;
+  public delete(id: Order['id']): Promise<Order> {
+    return this.prismaService.order.delete({
+      where: { id },
+    });
   }
   public create(orderData: Omit<Order, 'id'>): Order {
     const newOrder = { ...orderData, id: uuidv4() };
