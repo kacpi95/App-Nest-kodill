@@ -29,11 +29,13 @@ export class ProductsService {
       data: productData,
     });
   }
-  public edit(id: string, productData: Omit<Product, 'id'>): void {
-    db.products.forEach((el) => {
-      if (el.id === id) {
-        Object.assign(el, productData);
-      }
+  public updateById(
+    id: Product['id'],
+    productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<Product> {
+    return this.prismaService.product.update({
+      where: { id },
+      data: productData,
     });
   }
 }
