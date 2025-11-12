@@ -47,13 +47,13 @@ export class OrdersController {
     return this.ordersService.create(orderData);
   }
   @Patch('/:id')
-  edit(
+  async update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() orderData: UpdateOrderDTO,
   ) {
-    if (!this.ordersService.getById(id))
+    if (!(await this.ordersService.getById(id)))
       throw new NotFoundException('Order not found');
-    this.ordersService.edit(id, orderData);
+    await this.ordersService.updateById(id, orderData);
 
     return { success: true };
   }

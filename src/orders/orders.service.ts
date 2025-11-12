@@ -1,6 +1,5 @@
-import { db, Order } from './../db';
+import { Order } from './../db';
 import { Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
 import { PrismaService } from 'src/services/prisma.service';
 
 @Injectable()
@@ -26,11 +25,13 @@ export class OrdersService {
       data: orderData,
     });
   }
-  public edit(id: string, orderData: Omit<Order, 'id'>): void {
-    db.orders.forEach((el) => {
-      if (el.id === id) {
-        Object.assign(el, orderData);
-      }
+  public updateById(
+    id: Order['id'],
+    orderData: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<Order> {
+    return this.prismaService.order.update({
+      where: { id },
+      data: orderData,
     });
   }
 }
