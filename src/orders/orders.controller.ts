@@ -26,11 +26,11 @@ export class OrdersController {
     return this.ordersService.getAll();
   }
   @Get('/:id')
-  getById(@Param('id', new ParseUUIDPipe()) id: string) {
-    if (!this.ordersService.getById(id))
-      throw new NotFoundException('Order not found');
+  async getById(@Param('id', new ParseUUIDPipe()) id: string) {
+    const prod = await this.ordersService.getById(id);
+    if (!prod) throw new NotFoundException('Order not found');
 
-    return this.ordersService.getById(id);
+    return prod;
   }
 
   @Delete('/:id')

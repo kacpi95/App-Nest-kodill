@@ -11,8 +11,10 @@ export class OrdersService {
     return this.prismaService.order.findMany();
   }
 
-  public getById(id: string): Order | null {
-    return db.orders.find((el) => el.id === id);
+  public getById(id: Order['id']): Promise<Order> | null {
+    return this.prismaService.order.findUnique({
+      where: { id },
+    });
   }
   public delete(id: string): Order[] {
     const updateArray = db.orders.filter((el) => el.id === id);
