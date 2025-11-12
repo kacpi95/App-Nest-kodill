@@ -21,10 +21,10 @@ export class OrdersService {
       where: { id },
     });
   }
-  public create(orderData: Omit<Order, 'id'>): Order {
-    const newOrder = { ...orderData, id: uuidv4() };
-    db.orders.push(newOrder);
-    return newOrder;
+  public create(orderData: Omit<Order, 'id'>): Promise<Order> {
+    return this.prismaService.order.create({
+      data: orderData,
+    });
   }
   public edit(id: string, orderData: Omit<Order, 'id'>): void {
     db.orders.forEach((el) => {
