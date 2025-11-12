@@ -27,11 +27,11 @@ export class ProductsController {
   }
 
   @Get('/:id')
-  getById(@Param('id', new ParseUUIDPipe()) id: string) {
-    if (!this.productsService.getById(id))
-      throw new NotFoundException('Product not found');
+  async getById(@Param('id', new ParseUUIDPipe()) id: string) {
+    const prod = await this.productsService.getById(id);
+    if (!prod) throw new NotFoundException('Product not found');
 
-    return this.productsService.getById(id);
+    return prod;
   }
 
   @Delete('/:id')

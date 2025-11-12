@@ -11,8 +11,8 @@ export class ProductsService {
     return this.prismaService.product.findMany();
   }
 
-  public getById(id: string): Product | null {
-    return db.products.find((el) => el.id === id);
+  public getById(id: Product['id']): Promise<Product> | null {
+    return this.prismaService.product.findUnique({ where: { id } });
   }
 
   public delete(id: string): Product[] {
