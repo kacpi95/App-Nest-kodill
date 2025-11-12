@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
 import { PrismaService } from 'src/services/prisma.service';
 import { Product } from '@prisma/client';
 
@@ -23,10 +22,12 @@ export class ProductsService {
     });
   }
 
-  public create(productData: Omit<Product, 'id'>): Product {
-    const newProduct = { ...productData, id: uuidv4() };
-    db.products.push(newProduct);
-    return newProduct;
+  public create(
+    productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<Product> {
+    return this.prismaService.product.create({
+      data: productData,
+    });
   }
   public edit(id: string, productData: Omit<Product, 'id'>): void {
     db.products.forEach((el) => {
