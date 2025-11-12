@@ -12,13 +12,15 @@ export class ProductsService {
   }
 
   public getById(id: Product['id']): Promise<Product> | null {
-    return this.prismaService.product.findUnique({ where: { id } });
+    return this.prismaService.product.findUnique({
+      where: { id },
+    });
   }
 
-  public delete(id: string): Product[] {
-    const updateArray = db.products.filter((el) => el.id !== id);
-    db.products = updateArray;
-    return updateArray;
+  public deleteById(id: Product['id']): Promise<Product> {
+    return this.prismaService.product.delete({
+      where: { id },
+    });
   }
 
   public create(productData: Omit<Product, 'id'>): Product {
