@@ -38,9 +38,15 @@ export class OrdersService {
     id: Order['id'],
     orderData: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<Order> {
+    const { productId, ...otherData } = orderData;
     return this.prismaService.order.update({
       where: { id },
-      data: orderData,
+      data: {
+        ...otherData,
+        product: {
+          connect: { id: productId },
+        },
+      },
     });
   }
 }
