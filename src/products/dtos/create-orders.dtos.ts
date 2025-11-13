@@ -1,10 +1,10 @@
-import { Transform } from 'class-transformer';
+// import { Transform } from 'class-transformer';
 import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class CreateOrderDTO {
   @IsNotEmpty()
   @IsString()
-  @Length(5, 20)
+  // @Length(5, 30)
   productId: string;
 
   @IsNotEmpty()
@@ -12,9 +12,9 @@ export class CreateOrderDTO {
   @Length(5, 20)
   client: string;
 
-  @IsNotEmpty()
-  @IsString()
-  @Length(5, 100)
-  @Transform(({ value }) => (Array.isArray(value) ? value.join(', ') : ''))
+  // @IsNotEmpty()
+  // @IsString()
+  // @Length(5, 100)
+  // @Transform(({ value }) => (Array.isArray(value) ? value.join(', ') : ''))
   address: string;
 }

@@ -1,4 +1,4 @@
-import { Order } from './../db';
+import { Order } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/services/prisma.service';
 
@@ -7,7 +7,7 @@ export class OrdersService {
   constructor(private prismaService: PrismaService) {}
 
   public getAll(): Promise<Order[]> {
-    return this.prismaService.order.findMany();
+    return this.prismaService.order.findMany({ include: { product: true } });
   }
 
   public getById(id: Order['id']): Promise<Order> | null {
@@ -20,9 +20,17 @@ export class OrdersService {
       where: { id },
     });
   }
-  public create(orderData: Omit<Order, 'id'>): Promise<Order> {
+  public create(
+    orderData: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<Order> {
+    const { productId, ...otherData } = orderData;
     return this.prismaService.order.create({
-      data: orderData,
+      data: {
+        ...otherData,
+        product: {
+          connect: { id: productId },
+        },
+      },
     });
   }
   public updateById(
