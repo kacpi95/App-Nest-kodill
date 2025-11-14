@@ -43,4 +43,10 @@ export class ProductsService {
       include: { orders: true },
     });
   }
+  public getExtendId(id: Product['id']): Promise<Product | null> {
+    return this.prismaService.product.findUnique({
+      where: { id },
+      include: { orders: true },
+    });
+  }
 }

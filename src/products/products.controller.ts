@@ -24,6 +24,12 @@ export class ProductsController {
   getAllExtended(): any {
     return this.productsService.getAllExtended();
   }
+  @Get('/extended/:id')
+  async getExtendId(@Param('id', new ParseUUIDPipe()) id: string) {
+    const prod = await this.productsService.getExtendId(id);
+    if (!prod) throw new NotFoundException('Product not found');
+    return prod;
+  }
 
   @Get('/')
   getAll(): any {
