@@ -3,9 +3,9 @@ import { IsUUID, IsOptional } from 'class-validator';
 export class UpdateOrderDTO {
   @IsOptional()
   @IsUUID()
-  productId?: string;
+  productId: string;
 
   @IsOptional()
   @IsUUID()
-  clientId?: string;
+  clientId: string;
 }

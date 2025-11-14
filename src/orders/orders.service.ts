@@ -7,13 +7,15 @@ export class OrdersService {
   constructor(private prismaService: PrismaService) {}
 
   public getAll(): Promise<Order[]> {
-    return this.prismaService.order.findMany({ include: { product: true } });
+    return this.prismaService.order.findMany({
+      include: { product: true, client: true },
+    });
   }
 
   public getById(id: Order['id']): Promise<Order> | null {
     return this.prismaService.order.findUnique({
       where: { id },
-      include: { product: true },
+      include: { product: true, client: true },
     });
   }
   public deleteById(id: Order['id']): Promise<Order> {
@@ -24,7 +26,7 @@ export class OrdersService {
   public async create(
     orderData: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<Order> {
-    const { productId, ...otherData } = orderData;
+    const { productId, clientId, ...otherData } = orderData;
     try {
       return await this.prismaService.order.create({
         data: {
@@ -32,6 +34,13 @@ export class OrdersService {
           product: {
             connect: { id: productId },
           },
+          client: {
+            connect: { id: clientId },
+          },
+        },
+        include: {
+          product: true,
+          client: true,
         },
       });
     } catch (error) {
@@ -44,7 +53,7 @@ export class OrdersService {
     id: Order['id'],
     orderData: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<Order> {
-    const { productId, ...otherData } = orderData;
+    const { productId, clientId, ...otherData } = orderData;
     return this.prismaService.order.update({
       where: { id },
       data: {
@@ -52,6 +61,13 @@ export class OrdersService {
         product: {
           connect: { id: productId },
         },
+        client: {
+          connect: { id: clientId },
+        },
+      },
+      include: {
+        product: true,
+        client: true,
       },
     });
   }
