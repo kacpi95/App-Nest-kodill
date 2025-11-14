@@ -36,6 +36,26 @@ function getProducts() {
   ];
 }
 
+function getClients() {
+  return [
+    {
+      id: 'bd105551-0f0d-4a9f-bc41-c559c8a17270',
+      name: 'John Doe',
+      address: '123 Main Street, London',
+    },
+    {
+      id: 'bd105551-0f0d-4a9f-bc41-c559c8a17271',
+      name: 'Jane Doe',
+      address: '123 Main Street, London',
+    },
+    {
+      id: 'bd105551-0f0d-4a9f-bc41-c559c8a17272',
+      name: 'Thomas Jefferson',
+      address: 'Baker Street 12B, New York',
+    },
+  ];
+}
+
 function getOrders() {
   return [
     {
