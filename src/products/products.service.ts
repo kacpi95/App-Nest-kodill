@@ -38,4 +38,9 @@ export class ProductsService {
       data: productData,
     });
   }
+  public getAllExtended(): Promise<Product[]> {
+    return this.prismaService.product.findMany({
+      include: { orders: true },
+    });
+  }
 }

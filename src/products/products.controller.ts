@@ -20,6 +20,10 @@ export class ProductsController {
   constructor(productService: ProductsService) {
     this.productsService = productService;
   }
+  @Get('/extended')
+  getAllExtended(): any {
+    return this.productsService.getAllExtended();
+  }
 
   @Get('/')
   getAll(): any {
