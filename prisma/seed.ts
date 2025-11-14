@@ -60,20 +60,17 @@ function getOrders() {
   return [
     {
       id: 'fd105551-0f0d-4a9f-bc41-c559c8a17260',
-      client: 'John Doe',
-      address: '123 Main Street, London',
+      clientId: 'bd105551-0f0d-4a9f-bc41-c559c8a17270',
       productId: 'fd105551-0f0d-4a9f-bc41-c559c8a17256',
     },
     {
       id: 'fd105551-0f0d-4a9f-bc41-c559c8a17261',
-      client: 'Jane Doe',
-      address: '123 Main Street, London',
+      clientId: 'bd105551-0f0d-4a9f-bc41-c559c8a17271',
       productId: 'fd105551-0f0d-4a9f-bc41-c559c8a17256',
     },
     {
       id: 'fd105551-0f0d-4a9f-bc41-c559c8a17262',
-      client: 'Thomas Jefferson',
-      address: 'Baker Street 12B, New York',
+      clientId: 'bd105551-0f0d-4a9f-bc41-c559c8a17272',
       productId: '01c7599d-318b-4b9f-baf7-51f3a936a2d4',
     },
   ];
