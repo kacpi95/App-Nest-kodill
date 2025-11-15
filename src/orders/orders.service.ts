@@ -1,6 +1,8 @@
 import { Order } from '@prisma/client';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/services/prisma.service';
+import { CreateOrderDTO } from 'src/products/dtos/create-orders.dtos';
+import { UpdateOrderDTO } from 'src/products/dtos/update-orders.dtos';
 
 @Injectable()
 export class OrdersService {
@@ -23,25 +25,14 @@ export class OrdersService {
       where: { id },
     });
   }
-  public async create(
-    orderData: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>,
-  ): Promise<Order> {
-    const { productId, clientId, ...otherData } = orderData;
+  public async create(dto: CreateOrderDTO) {
     try {
       return await this.prismaService.order.create({
         data: {
-          ...otherData,
-          product: {
-            connect: { id: productId },
-          },
-          client: {
-            connect: { id: clientId },
-          },
+          product: { connect: { id: dto.productId } },
+          client: { connect: { id: dto.clientId } },
         },
-        include: {
-          product: true,
-          client: true,
-        },
+        include: { product: true, client: true },
       });
     } catch (error) {
       if (error.code === 'P2025')
@@ -49,26 +40,14 @@ export class OrdersService {
       throw error;
     }
   }
-  public updateById(
-    id: Order['id'],
-    orderData: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>,
-  ): Promise<Order> {
-    const { productId, clientId, ...otherData } = orderData;
+  public updateById(id: string, dto: UpdateOrderDTO) {
     return this.prismaService.order.update({
       where: { id },
       data: {
-        ...otherData,
-        product: {
-          connect: { id: productId },
-        },
-        client: {
-          connect: { id: clientId },
-        },
+        product: dto.productId ? { connect: { id: dto.productId } } : undefined,
+        client: dto.clientId ? { connect: { id: dto.clientId } } : undefined,
       },
-      include: {
-        product: true,
-        client: true,
-      },
+      include: { product: true, client: true },
     });
   }
 }
